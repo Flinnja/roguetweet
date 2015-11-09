@@ -14,6 +14,8 @@ var Dungeon = (function() {
                       left: {x: 0, y: -1},
                       right: {x: 0, y: 1}}
     this.charLoc = merge(this.charLoc,directions[dir])
+    removeCharRef(this)
+    setRef(this, this.charLoc, 'c')
   }
 
   Dungeon.prototype.setCharLoc = function(x,y){
@@ -47,15 +49,16 @@ var Dungeon = (function() {
   }
 
   function removeCharRef(dung){
+    foundChar = false
     for(var i=0;i<dung.maze.length;i++){
       for(var j=0;j<dung.maze.length;j++){
         if(dung.maze[i][j] == 'c'){
-          dung.maze[i][j] == 'e'
+          dung.maze[i][j] = 'e'
           foundChar = true
           break
         }
       }
-      if(foundChar = true) break
+      if(foundChar == true) break
     }
   }
 

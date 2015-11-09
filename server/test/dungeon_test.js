@@ -3,7 +3,7 @@ var chai = require('chai')
 var expect = chai.expect
 
 describe('Dungeon', function(){
-  before(function(){
+  beforeEach(function(){
     this.testSize = 10
     this.testDung = new Dungeon(this.testSize)
   })
@@ -28,23 +28,25 @@ describe('Dungeon', function(){
   })
 
   it('Has treasure hidden somewhere', function(){
-    var foundChar = false
+    var foundTreasue = false
     for(var i=0;i<this.testDung.maze.length;i++){
       for(var j=0;j<this.testDung.maze.length;j++){
         if(this.testDung.maze[i][j] == "t"){
-          foundChar = true
+          foundTreasue = true
           break
         }
       }
-      if(foundChar = true) break
+      if(foundTreasue = true) break
     }
-    expect(foundChar).to.be.true
+    expect(foundTreasue).to.be.true
   })
 
   it('Can move character around maze', function(){
-    this.testDung.setCharLoc(0,0)
-    this.testDung.moveCharacter('down')
-    expect(this.testDung.charLoc.x).to.equal(1)
+    this.testDung.setCharLoc(1,0)
+    this.testDung.moveCharacter('up')
+    expect(this.testDung.charLoc.x).to.equal(0)
+    expect(this.testDung.maze[0][0]).to.equal('c')
+    expect(this.testDung.maze[1][0]).to.equal('e')
   })
 
 })
