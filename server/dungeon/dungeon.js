@@ -13,9 +13,15 @@ var Dungeon = (function() {
                       down: {x: 1, y: 0},
                       left: {x: 0, y: -1},
                       right: {x: 0, y: 1}}
-    this.charLoc = merge(this.charLoc,directions[dir])
-    removeCharRef(this)
-    setRef(this, this.charLoc, 'c')
+    var moveTo = merge(this.charLoc,directions[dir])
+    if(moveTo.x<this.size && moveTo.x>=0 && moveTo.y<this.size && moveTo.y>=0){
+      this.charLoc = moveTo
+      removeCharRef(this)
+      setRef(this, this.charLoc, 'c')
+    }
+    else{
+      console.log("You cannot move outside the dungeon!")
+    }
   }
 
   Dungeon.prototype.setCharLoc = function(x,y){

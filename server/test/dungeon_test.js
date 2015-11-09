@@ -49,4 +49,11 @@ describe('Dungeon', function(){
     expect(this.testDung.maze[1][0]).to.equal('e')
   })
 
+  it('Cannot move a character outside of the dungeon limits', function(){
+    this.testDung.setCharLoc(0,0)
+    this.testDung.moveCharacter('up')
+    expect(this.testDung.charLoc.x).to.equal(0)
+    expect(this.testDung.maze[0][0]).to.equal('c')
+  })
+
 })
