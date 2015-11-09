@@ -1,11 +1,10 @@
 var Dungeon = (function() {
   function Dungeon(size){
+    this.isWon = false
     this.charLoc = {}
     this.treasureLoc = {}
     this.size = size
-    this.maze = buildEmptyMaze(size)
-    placeCharacter(this)
-    placeTreasure(this)
+    setupDungeon(this)
   }
 
   Dungeon.prototype.moveCharacter = function(dir){
@@ -16,22 +15,41 @@ var Dungeon = (function() {
     var moveTo = merge(this.charLoc,directions[dir])
     if(moveTo.x<this.size && moveTo.x>=0 && moveTo.y<this.size && moveTo.y>=0){
       this.charLoc = moveTo
-      removeCharRef(this)
+      removeRef(this, 'c')
       setRef(this, this.charLoc, 'c')
     }
     else{
       console.log("You cannot move outside the dungeon!")
     }
+    checkWon(this)
   }
+
+  //======FOR TESTING========
+
+  // Dungeon.prototype.setObjLoc = function(locString,ref,x,y){
+  //   this[locString] = {x: x, y: y}
+  //   removeRef(this, ref)
+  //   setRef(this, this.charLoc, ref)
+  // }
 
   Dungeon.prototype.setCharLoc = function(x,y){
     this.charLoc = {x: x, y: y}
-    removeCharRef(this)
+    removeRef(this, 'c')
     setRef(this, this.charLoc, 'c')
+  }
+  Dungeon.prototype.setTreasureLoc = function(x,y){
+    this.treasureLoc = {x: x, y: y}
+    removeRef(this, 't')
+    setRef(this, this.treasureLoc, 't')
   }
 
   //=========PRIVATE FUNCTIONS============
 
+  function setupDungeon(dung){
+    dung.maze = buildEmptyMaze(dung.size)
+    placeCharacter(dung)
+    placeTreasure(dung)
+  }
 
   function buildEmptyMaze(size){
     var maze = new Array(size)
@@ -54,17 +72,24 @@ var Dungeon = (function() {
     setRef(dung, dung.treasureLoc, 't')
   }
 
-  function removeCharRef(dung){
-    foundChar = false
+  function removeRef(dung, ref){
+    foundRef = false
     for(var i=0;i<dung.maze.length;i++){
       for(var j=0;j<dung.maze.length;j++){
-        if(dung.maze[i][j] == 'c'){
+        if(dung.maze[i][j] == ref){
           dung.maze[i][j] = 'e'
-          foundChar = true
+          foundRef = true
           break
         }
       }
-      if(foundChar == true) break
+      if(foundRef == true) break
+    }
+  }
+
+  function checkWon(dung){
+    if(dung.charLoc.x == dung.treasureLoc.x && dung.charLoc.y == dung.treasureLoc.y){
+      dung.isWon = true
+      console.log("You got the treasure!")
     }
   }
 

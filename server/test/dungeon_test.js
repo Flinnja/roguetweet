@@ -56,4 +56,18 @@ describe('Dungeon', function(){
     expect(this.testDung.maze[0][0]).to.equal('c')
   })
 
+  // it('funky function works', function(){
+  //   this.testDung.setCharLoc(1,0)
+  //   this.testDung.setObjLoc('charLoc','c',0,0)
+  //   expect(this.testDung.charLoc.x).to.equal(0)
+
+  // })
+
+  it('Is beaten when the character moves onto the treasure', function(){
+    this.testDung.setCharLoc(0,0)
+    this.testDung.setTreasureLoc(1,0)
+    this.testDung.moveCharacter('down')
+    expect(this.testDung.isWon).to.be.true
+  })
+
 })
