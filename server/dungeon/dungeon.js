@@ -1,6 +1,7 @@
 var Dungeon = (function() {
   function Dungeon(size){
     this.charLoc = {}
+    this.treasureLoc = {}
     this.size = size
     this.maze = buildEmptyMaze(size)
     placeCharacter(this)
@@ -18,7 +19,7 @@ var Dungeon = (function() {
   Dungeon.prototype.setCharLoc = function(x,y){
     this.charLoc = {x: x, y: y}
     removeCharRef(this)
-    setCharRef(this)
+    setRef(this, this.charLoc, 'c')
   }
 
   //=========PRIVATE FUNCTIONS============
@@ -37,11 +38,12 @@ var Dungeon = (function() {
 
   function placeCharacter(dung){
     dung.charLoc = {x: randomCoord(dung), y: randomCoord(dung)}
-    setCharRef(dung)
+    setRef(dung, dung.charLoc, 'c')
   }
 
   function placeTreasure(dung){
-    dung.maze[randomCoord(dung)][randomCoord(dung)] = 't'
+    dung.treasureLoc = {x: randomCoord(dung), y: randomCoord(dung)}
+    setRef(dung, dung.treasureLoc, 't')
   }
 
   function removeCharRef(dung){
@@ -57,8 +59,8 @@ var Dungeon = (function() {
     }
   }
 
-  function setCharRef(dung){
-    dung.maze[dung.charLoc.x][dung.charLoc.y] = 'c'
+  function setRef(dung, loc, value){
+    dung.maze[loc.x][loc.y] = value
   }
 
   function randomCoord(dung){
